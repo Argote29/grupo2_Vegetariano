@@ -18,14 +18,17 @@ public class Usuario {
     private String contrasena;
     @Column(name = "direccion",nullable = false,length = 60)
     private String direccion;
-    @Column(name = "preferencias_alimenticias",nullable = false,length = 30)
-    private String preferencias_alimenticias;
     @Column(name = "rol",nullable = false,length = 30)
     private String rol;
     @Column(name = "telefono",nullable = false,length = 60)
     private int telefono;
     @Column(name = "genero",nullable = false,length = 9)
     private String genero;
+
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false) // FK en usuario
+    private Rol rols;
+
     public Usuario() {}
 
     public Usuario(int id_usuario, String nombre, String apellido, String correo, String contrasena, String direccion, String preferencias_alimenticias, String rol, int telefono, String genero) {
@@ -35,7 +38,6 @@ public class Usuario {
         this.correo = correo;
         this.contrasena = contrasena;
         this.direccion = direccion;
-        this.preferencias_alimenticias = preferencias_alimenticias;
         this.rol = rol;
         this.telefono = telefono;
         this.genero = genero;
@@ -87,14 +89,6 @@ public class Usuario {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public String getPreferencias_alimenticias() {
-        return preferencias_alimenticias;
-    }
-
-    public void setPreferencias_alimenticias(String preferencias_alimenticias) {
-        this.preferencias_alimenticias = preferencias_alimenticias;
     }
 
     public String getRol() {
