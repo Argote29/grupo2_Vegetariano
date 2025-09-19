@@ -11,5 +11,6 @@ public interface IPlatoService {
     public void delete(int id);
     public Plato listId(int id);
     void update(Plato plato);
+    List<String[]> cantidadIngredientesPorPlato();
 
 }

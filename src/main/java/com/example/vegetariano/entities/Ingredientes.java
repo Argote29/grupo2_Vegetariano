@@ -4,6 +4,8 @@ package com.example.vegetariano.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 @Entity
 @Table(name = "Ingredientes")
 public class Ingredientes {
@@ -30,13 +32,13 @@ public class Ingredientes {
     private Boolean contiene_gluten;
 
 
-    @ManyToOne
-    @JoinColumn(name = "id_plato", nullable = false)
-    private Plato plato;
+
+    @ManyToMany(mappedBy = "ingredientes")
+    private List<Plato> plato;
 
     public Ingredientes () {}
 
-    public Ingredientes(int id_ingredientes, String nombre_ingrediente, String formas_preparar, Boolean tipo_natural, String nivel_insecticida, String origen, Boolean contiene_gluten, Plato plato) {
+    public Ingredientes(int id_ingredientes, String nombre_ingrediente, String formas_preparar, Boolean tipo_natural, String nivel_insecticida, String origen, Boolean contiene_gluten, List<Plato> plato) {
         this.id_ingredientes = id_ingredientes;
         this.nombre_ingrediente = nombre_ingrediente;
         this.formas_preparar = formas_preparar;
@@ -103,11 +105,11 @@ public class Ingredientes {
         this.contiene_gluten = contiene_gluten;
     }
 
-    public Plato getPlato() {
+    public List<Plato> getPlato() {
         return plato;
     }
 
-    public void setPlato(Plato plato) {
+    public void setPlato(List<Plato> plato) {
         this.plato = plato;
     }
 }
