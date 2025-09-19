@@ -27,4 +27,9 @@ public class PlatoServiceImplement implements IPlatoService {
 
     @Override
     public void update(Plato plato) {  pS.save(plato); }
+
+    @Override
+    public List<String[]> cantidadIngredientesPorPlato() {
+        return pS.cantidadIngredientesPorPlato();
+    }
 }

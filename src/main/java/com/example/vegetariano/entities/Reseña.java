@@ -28,7 +28,7 @@ public class Reseña {
     @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
 
-    public Reseña () {}
+    public Reseña() {}
 
     public Reseña(int id_reseña, String comentario, int calificacion, LocalDate fecha_reseña, Usuario usuario, Restaurante restaurante) {
         this.id_reseña = id_reseña;

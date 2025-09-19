@@ -1,6 +1,7 @@
 package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.PlatoDTO;
+import com.example.vegetariano.dtos.QueryCantidadIngredientesDTO;
 import com.example.vegetariano.entities.Plato;
 import com.example.vegetariano.serviceinterfaces.IPlatoService;
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class PlatoController {
     @Autowired
     private IPlatoService pS;
+    @Autowired
+    private IPlatoService iPlatoService;
 
     @GetMapping
     public List<PlatoDTO> listar() {
@@ -65,6 +69,27 @@ public class PlatoController {
 
         pS.update(plato);
         return ResponseEntity.ok("Plato con ID " + plato.getId_plato() + " modificado correctamente.");
+    }
+
+    @GetMapping("/cantidad_ingredientes_platos")
+    public ResponseEntity<?> contarIngredientesPorPlato() {
+        List<QueryCantidadIngredientesDTO> listaDto = new ArrayList<>();
+        List<String[]> filas = iPlatoService.cantidadIngredientesPorPlato();
+
+        if (filas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron registros");
+        }
+
+        for (String[] x : filas) {
+            QueryCantidadIngredientesDTO dto = new QueryCantidadIngredientesDTO(
+                    x[0],
+                    Long.parseLong(x[1])
+            );
+            listaDto.add(dto);
+        }
+
+        return ResponseEntity.ok(listaDto);
     }
 
 }
