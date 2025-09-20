@@ -6,4 +6,5 @@ public interface IUsuarioService {
     public List<Usuario> list ();
     public void insert (Usuario usuario);
 
+    List<String[]> QueryReservaUsuario();
 }

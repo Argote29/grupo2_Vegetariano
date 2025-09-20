@@ -1,5 +1,6 @@
 package com.example.vegetariano.controllers;
 
+import com.example.vegetariano.dtos.Query2DTO;
 import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.entities.Restaurante;
 import com.example.vegetariano.entities.Usuario;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,5 +82,16 @@ public class RestauranteController {
 
         rService.update(restaurante);
         return ResponseEntity.ok("Restaurante con ID " + restaurante.getId_restaurante() + " modificado correctamente.");
+    }
+    @GetMapping("RestaurantePromedioResena")
+    public ResponseEntity<?> Mostrar() {
+        List<String[]> fila=rService.QueryRestaurantePromedioResena();
+        List<Query2DTO> listaDTO = new ArrayList<>();
+
+        if (fila.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron registros");
+        }
+        return ResponseEntity.ok(listaDTO);
     }
 }

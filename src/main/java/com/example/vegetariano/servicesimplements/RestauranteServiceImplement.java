@@ -26,4 +26,9 @@ public class RestauranteServiceImplement implements IRestauranteService {
 
     @Override
     public void update(Restaurante restaurante) { rre.save(restaurante); }
+
+    @Override
+    public List<String[]> QueryRestaurantePromedioResena() {
+        return rre.QueryRestaurantePromedioResena();
+    }
 }
