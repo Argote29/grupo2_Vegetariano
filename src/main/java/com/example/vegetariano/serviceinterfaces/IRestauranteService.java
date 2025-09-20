@@ -10,4 +10,6 @@ public interface IRestauranteService {
     public void delete(int id);
     public Restaurante listId(int id);
     void update(Restaurante restaurante);
+
+    List<String[]> QueryRestaurantePromedioResena();
 }
