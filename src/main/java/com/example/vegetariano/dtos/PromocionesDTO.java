@@ -2,7 +2,7 @@ package com.example.vegetariano.dtos;
 
 import java.time.LocalDate;
 
-public class PromocionesDTO {
+public class PromocionesDTO /*promos*/ {
     private int  id_Promociones;
     private String  descripcion;
     private LocalDate fecha_inico_promo;
