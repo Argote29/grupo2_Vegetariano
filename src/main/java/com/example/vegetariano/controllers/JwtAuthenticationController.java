@@ -17,5 +17,33 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class JwtAuthenticationController {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private JwtUserDetailsService userDetailsService;
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponseDTO> login(@RequestBody JwtRequestDTO req) throws Exception {
+        authenticate(req.getCorreo(), req.getContrasena());
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(req.getCorreo());
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponseDTO(token));
+    }
+
+
+    private void authenticate(String correo, String contrasena) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(correo, contrasena));
+        } catch (DisabledException e) {
+            throw new Exception("USUARIO_DESHABILITADO", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("CREDENCIALES_INVALIDAS", e);
+        }
+    }
 }
