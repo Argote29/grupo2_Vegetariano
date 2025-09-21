@@ -1,7 +1,9 @@
 package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.RestauranteDTO;
+import com.example.vegetariano.dtos.UsuarioDTO;
 import com.example.vegetariano.entities.Restaurante;
+import com.example.vegetariano.entities.Rol;
 import com.example.vegetariano.entities.Usuario;
 import com.example.vegetariano.serviceinterfaces.IRestauranteService;
 import org.modelmapper.ModelMapper;
@@ -21,26 +23,37 @@ public class RestauranteController {
     private IRestauranteService rService;
 
     @GetMapping
-    public List<RestauranteDTO> listar() {
-        return rService.list().stream().map(restaurante -> {
-            ModelMapper m = new ModelMapper();
-            RestauranteDTO dto = m.map(restaurante, RestauranteDTO.class);
-            dto.setId_usuario(restaurante.getUsuario().getId_usuario());
-            return dto;
-        }).collect(Collectors.toList());
+    public List<RestauranteDTO> listar(){
+        return rService.list()
+                .stream()
+                .map(restaurante -> {
+                    ModelMapper m = new ModelMapper();
+                    RestauranteDTO dto = m.map(restaurante, RestauranteDTO.class);
+                    dto.setId_usuario(restaurante.getUsuario().getId_usuario()); //  aquí seteamos el id_usuario
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
+
     @PostMapping
-    public void insertar(@RequestBody RestauranteDTO dto) {
+    public ResponseEntity<String> insertar(@RequestBody RestauranteDTO dto) {
         ModelMapper m = new ModelMapper();
-        Restaurante restaurante = m.map(dto, Restaurante.class);
+        Restaurante r = m.map(dto, Restaurante.class);
+
 
         Usuario usuario = new Usuario();
         usuario.setId_usuario(dto.getId_usuario());
-        restaurante.setUsuario(usuario);
+        r.setUsuario(usuario);
 
-        rService.insert(restaurante);
+        rService.insert(r);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Restaurante registrado correctamente.");
     }
+
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
@@ -54,31 +67,46 @@ public class RestauranteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Restaurante restaurante = rService.listId(id);
+    public ResponseEntity<?> listarId(@PathVariable("id") Integer id_restaurante) {
+        Restaurante restaurante = rService.listId(id_restaurante);
+
         if (restaurante == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe un registro con el ID: " + id);
+                    .body("No existe un restaurante con el ID: " + id_restaurante);
         }
+
         ModelMapper m = new ModelMapper();
         RestauranteDTO dto = m.map(restaurante, RestauranteDTO.class);
+
+
         dto.setId_usuario(restaurante.getUsuario().getId_usuario());
+
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping
-    public ResponseEntity<String> modificar(@RequestBody RestauranteDTO dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<String> modificar(@PathVariable("id") Integer id_restaurante,
+                                            @RequestBody RestauranteDTO dto) {
+        Restaurante existente = rService.listId(id_restaurante);
+
+        if (existente == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se puede modificar. No existe un restaurante con el ID: " + id_restaurante);
+        }
+
         ModelMapper m = new ModelMapper();
         Restaurante restaurante = m.map(dto, Restaurante.class);
 
 
-        Restaurante existente = rService.listId(restaurante.getId_restaurante());
-        if (existente == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe un registro con el ID: " + restaurante.getId_restaurante());
-        }
+        restaurante.setId_restaurante(id_restaurante);
+
+
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(dto.getId_usuario());
+        restaurante.setUsuario(usuario);
 
         rService.update(restaurante);
-        return ResponseEntity.ok("Restaurante con ID " + restaurante.getId_restaurante() + " modificado correctamente.");
+
+        return ResponseEntity.ok("Restaurante con ID " + id_restaurante + " modificado correctamente.");
     }
 }

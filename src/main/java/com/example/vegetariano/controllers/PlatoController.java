@@ -1,7 +1,9 @@
 package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.PlatoDTO;
-import com.example.vegetariano.entities.Plato;
+import com.example.vegetariano.dtos.QueryCantidadIngredientesDTO;
+import com.example.vegetariano.dtos.ReservaDTO;
+import com.example.vegetariano.entities.*;
 import com.example.vegetariano.serviceinterfaces.IPlatoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 public class PlatoController {
     @Autowired
     private IPlatoService pS;
+    @Autowired
+    private IPlatoService iPlatoService;
 
     @GetMapping
     public List<PlatoDTO> listar() {
@@ -25,12 +30,28 @@ public class PlatoController {
             return m.map(plato, PlatoDTO.class);
         }).collect(Collectors.toList());
     }
+
+
     @PostMapping
-    public void insertar(@RequestBody PlatoDTO dto) {
+    public ResponseEntity<String> insertar(@RequestBody PlatoDTO dto) {
         ModelMapper m = new ModelMapper();
-        Plato e = m.map(dto, Plato.class);
-        pS.insert(e);
+        Plato plato = m.map(dto, Plato.class);
+
+        // Relación con Restaurante
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+        plato.setRestaurante(restaurante);
+
+        // Relación con Promoción
+        Promociones promociones = new Promociones();
+        promociones.setId_Promociones(dto.getId_Promociones());
+        plato.setPromociones(promociones);
+
+        pS.insert(plato);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Plato registrada correctamente.");
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Plato plato = pS.listId(id);
@@ -65,6 +86,27 @@ public class PlatoController {
 
         pS.update(plato);
         return ResponseEntity.ok("Plato con ID " + plato.getId_plato() + " modificado correctamente.");
+    }
+
+    @GetMapping("/cantidad_ingredientes_platos")
+    public ResponseEntity<?> contarIngredientesPorPlato() {
+        List<QueryCantidadIngredientesDTO> listaDto = new ArrayList<>();
+        List<String[]> filas = iPlatoService.cantidadIngredientesPorPlato();
+
+        if (filas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron registros");
+        }
+
+        for (String[] x : filas) {
+            QueryCantidadIngredientesDTO dto = new QueryCantidadIngredientesDTO(
+                    x[0],
+                    Long.parseLong(x[1])
+            );
+            listaDto.add(dto);
+        }
+
+        return ResponseEntity.ok(listaDto);
     }
 
 }

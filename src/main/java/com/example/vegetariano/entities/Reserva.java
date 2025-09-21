@@ -93,4 +93,12 @@ public class Reserva {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
 }

@@ -1,5 +1,10 @@
 package com.example.vegetariano.dtos;
 
+import com.example.vegetariano.entities.Rol;
+import com.example.vegetariano.entities.Usuario;
+
+import javax.management.relation.Role;
+
 public class UsuarioDTO
 {
     private int id_usuario;
@@ -16,9 +21,9 @@ public class UsuarioDTO
 
     private String preferencias_alimenticias;
 
-    private String rol;
-
     private String genero;
+
+    private int id_rol;
 
     public int getId_usuario() {
         return id_usuario;
@@ -76,14 +81,6 @@ public class UsuarioDTO
         this.preferencias_alimenticias = preferencias_alimenticias;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
     public String getGenero() {
         return genero;
     }
@@ -91,4 +88,16 @@ public class UsuarioDTO
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public Integer getId_rol() {
+        return id_rol;
+    }
+
+    public void setId_rol(Integer id_rol) {
+        this.id_rol = id_rol;
+    }
 }
+
+
+
+

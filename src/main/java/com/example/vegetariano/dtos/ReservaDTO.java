@@ -1,5 +1,7 @@
 package com.example.vegetariano.dtos;
 
+import com.example.vegetariano.entities.Restaurante;
+import com.example.vegetariano.entities.Usuario;
 import jakarta.persistence.Column;
 
 import java.time.LocalDate;
@@ -11,6 +13,8 @@ public class ReservaDTO {
     private LocalTime hora;
     private int numero_personas;
     private String estado;
+    private int id_usuario;
+    private int id_restaurante;
 
     public int getId_reserva() {
         return id_reserva;
@@ -50,5 +54,21 @@ public class ReservaDTO {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public int getId_restaurante() {
+        return id_restaurante;
+    }
+
+    public void setId_restaurante(int id_restaurante) {
+        this.id_restaurante = id_restaurante;
     }
 }

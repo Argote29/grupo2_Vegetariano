@@ -18,8 +18,7 @@ public class Usuario {
     private String contrasena;
     @Column(name = "direccion",nullable = false,length = 60)
     private String direccion;
-    @Column(name = "rol",nullable = false,length = 30)
-    private String rol;
+
     @Column(name = "telefono",nullable = false,length = 60)
     private int telefono;
     @Column(name = "genero",nullable = false,length = 9)
@@ -27,11 +26,11 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false) // FK en usuario
-    private Rol rols;
+    private Rol rol;
 
     public Usuario() {}
 
-    public Usuario(int id_usuario, String nombre, String apellido, String correo, String contrasena, String direccion, String preferencias_alimenticias, String rol, int telefono, String genero) {
+    public Usuario(int id_usuario, String nombre, String apellido, String correo, String contrasena, String direccion, String preferencias_alimenticias, Rol rol, int telefono, String genero) {
         this.id_usuario = id_usuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -91,11 +90,11 @@ public class Usuario {
         this.direccion = direccion;
     }
 
-    public String getRol() {
+    public Rol getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(Rol rol) {
         this.rol = rol;
     }
 
