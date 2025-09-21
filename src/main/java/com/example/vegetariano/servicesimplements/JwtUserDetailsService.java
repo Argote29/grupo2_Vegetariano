@@ -42,4 +42,5 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         return new User(usuario.getCorreo(), usuario.getContrasena(), authorities);
     }
+    
 }
