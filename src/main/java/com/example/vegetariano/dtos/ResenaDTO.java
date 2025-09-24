@@ -9,6 +9,8 @@ public class ResenaDTO {
     private String comentario;
     private int calificacion;
     private LocalDate fecha_reseña;
+    private int id_restaurante;
+    private int id_usuario;
 
     public int getId_reseña() {
         return id_reseña;
@@ -40,5 +42,21 @@ public class ResenaDTO {
 
     public void setFecha_reseña(LocalDate fecha_reseña) {
         this.fecha_reseña = fecha_reseña;
+    }
+
+    public int getId_restaurante() {
+        return id_restaurante;
+    }
+
+    public void setId_restaurante(int id_restaurante) {
+        this.id_restaurante = id_restaurante;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 }

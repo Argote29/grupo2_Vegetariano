@@ -3,6 +3,7 @@ package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.PromocionesDTO;
 import com.example.vegetariano.entities.Promociones;
+import com.example.vegetariano.entities.Restaurante;
 import com.example.vegetariano.serviceinterfaces.IPromocionesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,27 @@ public class PromocionesController {
 
     @GetMapping
     public List<PromocionesDTO> listar() {
-        return repo.list().stream().map(promociones -> {
+        return repo.list().stream().map(promocion -> {
             ModelMapper m = new ModelMapper();
-            return m.map(promociones, PromocionesDTO.class);
+            PromocionesDTO dto = m.map(promocion, PromocionesDTO.class);
+
+            if (promocion.getRestaurante() != null) {
+                dto.setId_restaurante(promocion.getRestaurante().getId_restaurante());
+            }
+
+            return dto;
         }).collect(Collectors.toList());
     }
 
     @PostMapping
     public void insertar(@RequestBody PromocionesDTO dto) {
         ModelMapper m = new ModelMapper();
-        Promociones e = m.map(dto, Promociones.class);
-        repo.insert(e);
+        Promociones p = m.map(dto, Promociones.class);
+
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+        p.setRestaurante(restaurante);
+        repo.insert(p);
     }
 
     @DeleteMapping("/{id}")
@@ -45,6 +56,7 @@ public class PromocionesController {
         repo.delete(id);
         return ResponseEntity.ok("Promoción con ID " + id + " eliminada correctamente.");
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Promociones promo = repo.listId(id);
@@ -54,6 +66,12 @@ public class PromocionesController {
         }
         ModelMapper m = new ModelMapper();
         PromocionesDTO dto = m.map(promo, PromocionesDTO.class);
+
+
+        if (promo.getRestaurante() != null) {
+            dto.setId_restaurante(promo.getRestaurante().getId_restaurante());
+        }
+
         return ResponseEntity.ok(dto);
     }
 
@@ -62,7 +80,14 @@ public class PromocionesController {
         ModelMapper m = new ModelMapper();
         Promociones promo = m.map(dto, Promociones.class);
 
-        Promociones existente = repo.listId(promo.getId_Promociones()); // usa tu getter real
+
+        if (dto.getId_restaurante() > 0) {
+            Restaurante restaurante = new Restaurante();
+            restaurante.setId_restaurante(dto.getId_restaurante());
+            promo.setRestaurante(restaurante);
+        }
+
+        Promociones existente = repo.listId(promo.getId_Promociones()); // usa el getter real
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se puede modificar. No existe una promoción con el ID: " + promo.getId_Promociones());

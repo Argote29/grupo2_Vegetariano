@@ -2,7 +2,7 @@ package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.JwtRequestDTO;
 import com.example.vegetariano.dtos.JwtResponseDTO;
-import com.example.vegetariano.securities.JwtTokenUtil;
+import com.example.vegetariano.Securities.JwtTokenUtil;
 import com.example.vegetariano.servicesimplements.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

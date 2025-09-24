@@ -4,7 +4,7 @@ import com.example.vegetariano.entities.Restaurante;
 
 import java.util.List;
 
-public interface IRestauranteService {
+public interface    IRestauranteService {
     public List<Restaurante> list();
     public void insert(Restaurante restaurante);
     public void delete(int id);

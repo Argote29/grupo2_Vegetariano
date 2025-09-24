@@ -2,6 +2,8 @@ package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.ResenaDTO;
 import com.example.vegetariano.entities.Reseña;
+import com.example.vegetariano.entities.Restaurante;
+import com.example.vegetariano.entities.Usuario;
 import com.example.vegetariano.serviceinterfaces.IResenaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,32 @@ public class ResenaController {
     public List<ResenaDTO> listar() {
         return rSA.list().stream().map(reseña -> {
             ModelMapper m = new ModelMapper();
-            return m.map(reseña, ResenaDTO.class);
+            ResenaDTO dto = m.map(reseña, ResenaDTO.class);
+            dto.setId_usuario(reseña.getUsuario().getId_usuario());
+            dto.setId_restaurante(reseña.getRestaurante().getId_restaurante());
+
+            return dto;
         }).collect(Collectors.toList());
     }
     @PostMapping
-    public void insertar(@RequestBody ResenaDTO dto) {
+    public ResponseEntity<String> insertar(@RequestBody ResenaDTO dto) {
         ModelMapper m = new ModelMapper();
-        Reseña e = m.map(dto, Reseña.class);
-        rSA.insert(e);
+        Reseña reseña = m.map(dto, Reseña.class);
+
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(dto.getId_usuario());
+
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+
+        reseña.setUsuario(usuario);
+        reseña.setRestaurante(restaurante);
+
+        rSA.insert(reseña);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Reseña registrada correctamente.");
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Reseña reseña = rSA.listId(id);
@@ -52,6 +71,11 @@ public class ResenaController {
         }
         ModelMapper m = new ModelMapper();
         ResenaDTO dto = m.map(reseña, ResenaDTO.class);
+
+        // asignar manualmente los IDs
+        dto.setId_usuario(reseña.getUsuario().getId_usuario());
+        dto.setId_restaurante(reseña.getRestaurante().getId_restaurante());
+
         return ResponseEntity.ok(dto);
     }
 
@@ -60,6 +84,15 @@ public class ResenaController {
         ModelMapper m = new ModelMapper();
         Reseña reseña = m.map(dto, Reseña.class);
 
+        // Seteamos usuario y restaurante desde el DTO
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(dto.getId_usuario());
+
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+
+        reseña.setUsuario(usuario);
+        reseña.setRestaurante(restaurante);
 
         Reseña existente = rSA.listId(reseña.getId_reseña());
         if (existente == null) {

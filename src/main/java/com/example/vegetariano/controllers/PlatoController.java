@@ -2,7 +2,8 @@ package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.PlatoDTO;
 import com.example.vegetariano.dtos.QueryCantidadIngredientesDTO;
-import com.example.vegetariano.entities.Plato;
+import com.example.vegetariano.dtos.ReservaDTO;
+import com.example.vegetariano.entities.*;
 import com.example.vegetariano.serviceinterfaces.IPlatoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,28 @@ public class PlatoController {
             return m.map(plato, PlatoDTO.class);
         }).collect(Collectors.toList());
     }
+
+
     @PostMapping
-    public void insertar(@RequestBody PlatoDTO dto) {
+    public ResponseEntity<String> insertar(@RequestBody PlatoDTO dto) {
         ModelMapper m = new ModelMapper();
-        Plato e = m.map(dto, Plato.class);
-        pS.insert(e);
+        Plato plato = m.map(dto, Plato.class);
+
+        // Relación con Restaurante
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+        plato.setRestaurante(restaurante);
+
+        // Relación con Promoción
+        Promociones promociones = new Promociones();
+        promociones.setId_Promociones(dto.getId_Promociones());
+        plato.setPromociones(promociones);
+
+        pS.insert(plato);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Plato registrada correctamente.");
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Plato plato = pS.listId(id);

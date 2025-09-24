@@ -2,7 +2,7 @@ package com.example.vegetariano.dtos;
 
 import jakarta.persistence.Column;
 
-public class RolDTO {
+public class    RolDTO {
 
     private int id_rol;
     private String nombre;
