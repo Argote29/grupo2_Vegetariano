@@ -17,7 +17,7 @@ public class Usuario implements Serializable {
     private String apellido;
     @Column(name = "correo",nullable = false,length = 60, unique = true)
     private String correo;
-    @Column(name = "contrasena",nullable = false,length = 500)
+    @Column(name = "contrasena",nullable = false,length = 100)
     private String contrasena;
     @Column(name = "direccion",nullable = false,length = 60)
     private String direccion;
@@ -27,9 +27,9 @@ public class Usuario implements Serializable {
     @Column(name = "genero",nullable = false,length = 9)
     private String genero;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id") // FK en usuario
-    private List<Rol> rols;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id") // FK en tabla rol
+    private List<Rol> roles;
 
     public Usuario() {}
 
@@ -40,7 +40,7 @@ public class Usuario implements Serializable {
         this.correo = correo;
         this.contrasena = contrasena;
         this.direccion = direccion;
-        this.rols = rols;
+        this.roles = roles;
         this.telefono = telefono;
         this.genero = genero;
     }
@@ -94,11 +94,11 @@ public class Usuario implements Serializable {
     }
 
     public List<Rol> getRol() {
-        return rols;
+        return roles;
     }
 
     public void setRol(List<Rol> rols) {
-        this.rols = rols;
+        this.roles = rols;
     }
 
     public int getTelefono() {

@@ -33,10 +33,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if (usuario.getRol() != null) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
+
+        if (usuario.getRol() != null && !usuario.getRol().isEmpty()) {
+            usuario.getRol().forEach(rol -> {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
+            });
         } else {
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // Por defecto
         }
 
 
