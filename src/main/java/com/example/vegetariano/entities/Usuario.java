@@ -2,9 +2,12 @@ package com.example.vegetariano.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Table(name = "Usuario")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
@@ -14,7 +17,7 @@ public class Usuario {
     private String apellido;
     @Column(name = "correo",nullable = false,length = 60, unique = true)
     private String correo;
-    @Column(name = "contrasena",nullable = false,length = 100)
+    @Column(name = "contrasena",nullable = false,length = 500)
     private String contrasena;
     @Column(name = "direccion",nullable = false,length = 60)
     private String direccion;
@@ -24,9 +27,9 @@ public class Usuario {
     @Column(name = "genero",nullable = false,length = 9)
     private String genero;
 
-    @ManyToOne
-    @JoinColumn(name = "id_rol", nullable = false) // FK en usuario
-    private Rol rol;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id") // FK en usuario
+    private List<Rol> rols;
 
     public Usuario() {}
 
@@ -37,7 +40,7 @@ public class Usuario {
         this.correo = correo;
         this.contrasena = contrasena;
         this.direccion = direccion;
-        this.rol = rol;
+        this.rols = rols;
         this.telefono = telefono;
         this.genero = genero;
     }
@@ -90,12 +93,12 @@ public class Usuario {
         this.direccion = direccion;
     }
 
-    public Rol getRol() {
-        return rol;
+    public List<Rol> getRol() {
+        return rols;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setRol(List<Rol> rols) {
+        this.rols = rols;
     }
 
     public int getTelefono() {

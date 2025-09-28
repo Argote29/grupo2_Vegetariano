@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class UsuarioController {
     @Autowired
     private IUsuarioService uR;
+
     @GetMapping
     public List<UsuarioDTO> listar(){
         return uR.list().stream().map(x->{
@@ -29,6 +30,7 @@ public class UsuarioController {
             return m.map(x, UsuarioDTO.class);
         }).collect(Collectors.toList());
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public void insertar(@RequestBody UsuarioDTO dto){
         ModelMapper m = new ModelMapper();
