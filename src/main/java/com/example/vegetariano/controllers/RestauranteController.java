@@ -109,4 +109,6 @@ public class RestauranteController {
 
         return ResponseEntity.ok("Restaurante con ID " + id_restaurante + " modificado correctamente.");
     }
+
 }
+

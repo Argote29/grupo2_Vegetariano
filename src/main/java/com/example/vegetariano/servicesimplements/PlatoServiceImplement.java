@@ -1,5 +1,6 @@
 package com.example.vegetariano.servicesimplements;
 
+import com.example.vegetariano.dtos.PlatoDTO;
 import com.example.vegetariano.entities.Plato;
 import com.example.vegetariano.repositories.IPlatoRepository;
 import com.example.vegetariano.serviceinterfaces.IPlatoService;
@@ -32,4 +33,8 @@ public class PlatoServiceImplement implements IPlatoService {
     public List<String[]> cantidadIngredientesPorPlato() {
         return pS.cantidadIngredientesPorPlato();
     }
+
+    @Override
+    public List<Object[]> listarPlatosPorRestaurante(String nombreRestaurante) {
+        return pS.listarPlatosPorRestaurante(nombreRestaurante); }
 }

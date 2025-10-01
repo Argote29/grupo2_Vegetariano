@@ -109,4 +109,19 @@ public class PlatoController {
         return ResponseEntity.ok(listaDto);
     }
 
+    //Platos y precios por restaurante//
+    @GetMapping("/restaurante/{nombre}")
+    public ResponseEntity<?> listarPorRestaurante(@PathVariable("nombre") String nombreRestaurante) {
+        List<Object[]> platos = iPlatoService.listarPlatosPorRestaurante(nombreRestaurante);
+
+        if (platos.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No hay restaurante registrado con ese nombre: " + nombreRestaurante);
+        }
+
+        return ResponseEntity.ok(platos);
+    }
+
+
 }

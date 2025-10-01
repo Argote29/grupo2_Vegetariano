@@ -3,6 +3,7 @@ package com.example.vegetariano.repositories;
 import com.example.vegetariano.entities.Plato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,12 @@ public interface IPlatoRepository extends JpaRepository<Plato,Integer> {
             "GROUP BY p.nombre_plato",
             nativeQuery = true)
     List<String[]> cantidadIngredientesPorPlato();
+
+    @Query(value = "SELECT p.id_plato, p.nombre_plato, p.precio_plato " +
+            "FROM Restaurante r " +
+            "INNER JOIN Plato p ON r.id_restaurante = p.id_restaurante " +
+            "WHERE r.nombre_restaurante = :nombreRestaurante " +
+            "ORDER BY p.precio_plato DESC",
+            nativeQuery = true)
+    List<Object[]> listarPlatosPorRestaurante(@Param("nombreRestaurante") String nombreRestaurante);
 }

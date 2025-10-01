@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "Reseña")
-public class Reseña {
+public class Resena {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_reseña;
@@ -28,9 +28,9 @@ public class Reseña {
     @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
 
-    public Reseña() {}
+    public Resena() {}
 
-    public Reseña(int id_reseña, String comentario, int calificacion, LocalDate fecha_reseña, Usuario usuario, Restaurante restaurante) {
+    public Resena(int id_reseña, String comentario, int calificacion, LocalDate fecha_reseña, Usuario usuario, Restaurante restaurante) {
         this.id_reseña = id_reseña;
         this.comentario = comentario;
         this.calificacion = calificacion;

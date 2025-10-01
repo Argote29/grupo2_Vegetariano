@@ -12,4 +12,5 @@ public interface    IRestauranteService {
     void update(Restaurante restaurante);
 
     List<String[]> QueryRestaurantePromedioResena();
+
 }

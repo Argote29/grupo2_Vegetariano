@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface IRestauranteRepository extends JpaRepository<Restaurante, Integer> {
+
     @Query(value = "select nombre_restaurante, avg(calificacion) as prom_calificacion, \n" +
             "       count(id_reseña) as numero_reseña\n" +
             "from Restaurante as r \n" +
@@ -17,4 +18,6 @@ public interface IRestauranteRepository extends JpaRepository<Restaurante, Integ
             "group by nombre_restaurante\n" +
             "order by prom_calificacion desc",nativeQuery = true)
     List<String[]> QueryRestaurantePromedioResena();
+
+
 }
