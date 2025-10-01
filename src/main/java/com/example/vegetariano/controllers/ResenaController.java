@@ -1,7 +1,9 @@
 package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.ResenaDTO;
-import com.example.vegetariano.entities.Reseña;
+import com.example.vegetariano.entities.Resena;
+import com.example.vegetariano.entities.Restaurante;
+import com.example.vegetariano.entities.Usuario;
 import com.example.vegetariano.serviceinterfaces.IResenaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +23,38 @@ public class ResenaController {
 
     @GetMapping
     public List<ResenaDTO> listar() {
-        return rSA.list().stream().map(reseña -> {
+        return rSA.list().stream().map(resena -> {
             ModelMapper m = new ModelMapper();
-            return m.map(reseña, ResenaDTO.class);
+            ResenaDTO dto = m.map(resena, ResenaDTO.class);
+            dto.setId_usuario(resena.getUsuario().getId_usuario());
+            dto.setId_restaurante(resena.getRestaurante().getId_restaurante());
+
+            return dto;
         }).collect(Collectors.toList());
     }
     @PostMapping
-    public void insertar(@RequestBody ResenaDTO dto) {
+    public ResponseEntity<String> insertar(@RequestBody ResenaDTO dto) {
         ModelMapper m = new ModelMapper();
-        Reseña e = m.map(dto, Reseña.class);
-        rSA.insert(e);
+        Resena resena = m.map(dto, Resena.class);
+
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(dto.getId_usuario());
+
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+
+        resena.setUsuario(usuario);
+        resena.setRestaurante(restaurante);
+
+        rSA.insert(resena);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Reseña registrada correctamente.");
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
-        Reseña reseña = rSA.listId(id);
-        if (reseña == null) {
+        Resena resena = rSA.listId(id);
+        if (resena == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una reseña con el ID: " + id);
         }
@@ -45,30 +64,44 @@ public class ResenaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
-        Reseña reseña = rSA.listId(id);
-        if (reseña == null) {
+        Resena resena = rSA.listId(id);
+        if (resena == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una reseña con el ID: " + id);
         }
         ModelMapper m = new ModelMapper();
-        ResenaDTO dto = m.map(reseña, ResenaDTO.class);
+        ResenaDTO dto = m.map(resena, ResenaDTO.class);
+
+        // asignar manualmente los IDs
+        dto.setId_usuario(resena.getUsuario().getId_usuario());
+        dto.setId_restaurante(resena.getRestaurante().getId_restaurante());
+
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody ResenaDTO dto) {
         ModelMapper m = new ModelMapper();
-        Reseña reseña = m.map(dto, Reseña.class);
+        Resena resena = m.map(dto, Resena.class);
 
+        // Seteamos usuario y restaurante desde el DTO
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(dto.getId_usuario());
 
-        Reseña existente = rSA.listId(reseña.getId_reseña());
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId_restaurante(dto.getId_restaurante());
+
+        resena.setUsuario(usuario);
+        resena.setRestaurante(restaurante);
+
+        Resena existente = rSA.listId(resena.getId_reseña());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se puede modificar. No existe una reseña con el ID: " + reseña.getId_reseña());
+                    .body("No se puede modificar. No existe una reseña con el ID: " + resena.getId_reseña());
         }
 
-        rSA.update(reseña);
-        return ResponseEntity.ok("Reseña con ID " + reseña.getId_reseña() + " modificada correctamente.");
+        rSA.update(resena);
+        return ResponseEntity.ok("Reseña con ID " + resena.getId_reseña() + " modificada correctamente.");
     }
 
 }

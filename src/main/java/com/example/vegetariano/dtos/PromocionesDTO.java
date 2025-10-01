@@ -2,12 +2,13 @@ package com.example.vegetariano.dtos;
 
 import java.time.LocalDate;
 
-public class PromocionesDTO /*promos*/ {
+public class PromocionesDTO {
     private int  id_Promociones;
     private String  descripcion;
     private LocalDate fecha_inico_promo;
     private LocalDate fecha_final_promo;
     private String  descuento;
+    private int id_restaurante;
 
     public int getId_Promociones() {
         return id_Promociones;
@@ -47,5 +48,13 @@ public class PromocionesDTO /*promos*/ {
 
     public void setDescuento(String descuento) {
         this.descuento = descuento;
+    }
+
+    public int getId_restaurante() {
+        return id_restaurante;
+    }
+
+    public void setId_restaurante(int id_restaurante) {
+        this.id_restaurante = id_restaurante;
     }
 }

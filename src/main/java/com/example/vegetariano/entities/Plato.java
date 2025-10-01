@@ -28,7 +28,7 @@ public class Plato {
     @JoinColumn(name = "id_promociones", nullable = false)
     private Promociones  promociones;
 
-    // 🔹 Relación muchos a muchos con Ingredientes
+    //  Relación muchos a muchos con Ingredientes
     @ManyToMany
     @JoinTable(
             name = "ingrediente_plato",
@@ -40,7 +40,7 @@ public class Plato {
     public Plato () {}
 
     public Plato(int id_plato, BigDecimal precio_plato, String nombre_plato, String info_nutricional, Restaurante restaurante, Promociones promociones,
-    List<Ingredientes> ingredientes) {
+                 List<Ingredientes> ingredientes) {
         this.id_plato = id_plato;
         this.precio_plato = precio_plato;
         this.nombre_plato = nombre_plato;

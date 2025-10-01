@@ -2,9 +2,12 @@ package com.example.vegetariano.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Table(name = "Usuario")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
@@ -18,27 +21,26 @@ public class Usuario {
     private String contrasena;
     @Column(name = "direccion",nullable = false,length = 60)
     private String direccion;
-    @Column(name = "rol",nullable = false,length = 30)
-    private String rol;
+
     @Column(name = "telefono",nullable = false,length = 60)
     private int telefono;
     @Column(name = "genero",nullable = false,length = 9)
     private String genero;
 
-    @ManyToOne
-    @JoinColumn(name = "id_rol", nullable = false) // FK en usuario
-    private Rol rols;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id") // FK en tabla rol
+    private List<Rol> roles;
 
     public Usuario() {}
 
-    public Usuario(int id_usuario, String nombre, String apellido, String correo, String contrasena, String direccion, String preferencias_alimenticias, String rol, int telefono, String genero) {
+    public Usuario(int id_usuario, String nombre, String apellido, String correo, String contrasena, String direccion, String preferencias_alimenticias, Rol rol, int telefono, String genero) {
         this.id_usuario = id_usuario;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.contrasena = contrasena;
         this.direccion = direccion;
-        this.rol = rol;
+        this.roles = roles;
         this.telefono = telefono;
         this.genero = genero;
     }
@@ -91,12 +93,12 @@ public class Usuario {
         this.direccion = direccion;
     }
 
-    public String getRol() {
-        return rol;
+    public List<Rol> getRol() {
+        return roles;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setRol(List<Rol> rols) {
+        this.roles = rols;
     }
 
     public int getTelefono() {

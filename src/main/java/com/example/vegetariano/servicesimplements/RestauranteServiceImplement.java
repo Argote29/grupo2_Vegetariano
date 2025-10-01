@@ -31,4 +31,6 @@ public class RestauranteServiceImplement implements IRestauranteService {
     public List<String[]> QueryRestaurantePromedioResena() {
         return rre.QueryRestaurantePromedioResena();
     }
+
+
 }

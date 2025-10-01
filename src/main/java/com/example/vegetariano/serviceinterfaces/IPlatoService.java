@@ -12,5 +12,7 @@ public interface IPlatoService {
     public Plato listId(int id);
     void update(Plato plato);
     List<String[]> cantidadIngredientesPorPlato();
+    List<Object[]> listarPlatosPorRestaurante(String nombreRestaurante);
+
 
 }
