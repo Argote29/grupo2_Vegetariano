@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class IngredientesController {
     @Autowired
     private IIngredientesService iIG;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<IngredientesDTO> listar() {
         return iIG.list().stream().map(ingredientes -> {
@@ -27,6 +29,7 @@ public class IngredientesController {
         }).collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PostMapping
     public void insertar(@RequestBody IngredientesDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -34,6 +37,7 @@ public class IngredientesController {
         iIG.insert(e);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Ingredientes ingrediente = iIG.listId(id);
@@ -44,6 +48,8 @@ public class IngredientesController {
         iIG.delete(id);
         return ResponseEntity.ok("Ingrediente con ID " + id + " eliminado correctamente.");
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Ingredientes ingrediente = iIG.listId(id);
@@ -55,6 +61,7 @@ public class IngredientesController {
         IngredientesDTO dto = m.map(ingrediente, IngredientesDTO.class);
         return ResponseEntity.ok(dto);
     }
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody IngredientesDTO dto) {
         ModelMapper m = new ModelMapper();

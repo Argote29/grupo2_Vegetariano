@@ -1,5 +1,6 @@
 package com.example.vegetariano.controllers;
 
+import com.example.vegetariano.dtos.Query2DTO;
 import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.dtos.UsuarioDTO;
 import com.example.vegetariano.entities.Restaurante;
@@ -10,8 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,7 @@ public class RestauranteController {
     @Autowired
     private IRestauranteService rService;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<RestauranteDTO> listar(){
         return rService.list()
@@ -35,7 +39,7 @@ public class RestauranteController {
                 .collect(Collectors.toList());
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody RestauranteDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -51,10 +55,7 @@ public class RestauranteController {
                 .body("Restaurante registrado correctamente.");
     }
 
-
-
-
-
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Restaurante restaurante = rService.listId(id);
@@ -66,6 +67,7 @@ public class RestauranteController {
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id_restaurante) {
         Restaurante restaurante = rService.listId(id_restaurante);
@@ -84,6 +86,7 @@ public class RestauranteController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PutMapping("/{id}")
     public ResponseEntity<String> modificar(@PathVariable("id") Integer id_restaurante,
                                             @RequestBody RestauranteDTO dto) {
@@ -108,6 +111,18 @@ public class RestauranteController {
         rService.update(restaurante);
 
         return ResponseEntity.ok("Restaurante con ID " + id_restaurante + " modificado correctamente.");
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
+    @GetMapping("RestaurantePromedioResena")
+    public ResponseEntity<?> Mostrar() {
+        List<String[]> fila=rService.QueryRestaurantePromedioResena();
+        List<Query2DTO> listaDTO = new ArrayList<>();
+
+        if (fila.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron registros");
+        }
+        return ResponseEntity.ok(listaDTO);
     }
 
 }

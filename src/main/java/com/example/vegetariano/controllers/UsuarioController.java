@@ -23,6 +23,7 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService uR;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<UsuarioDTO> listar(){
         return uR.list().stream().map(x->{
@@ -37,6 +38,7 @@ public class UsuarioController {
         Usuario u = m.map(dto, Usuario.class);
         uR.insert(u);
     }
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/agruparReservaUsuario")
     public ResponseEntity<?> contar() {
         List<String[]> fila=uR.QueryReservaUsuario();

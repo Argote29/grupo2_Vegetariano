@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ReservaController {
     @Autowired
     private IReservaService eRe;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<ReservaDTO> listar() {
         return eRe.list().stream().map(reserva -> {
@@ -40,6 +42,7 @@ public class ReservaController {
         }).collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody ReservaDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -60,9 +63,7 @@ public class ReservaController {
                 .body("Reserva registrada correctamente.");
     }
 
-
-
-
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Reserva reserva = eRe.listId(id);
@@ -73,6 +74,8 @@ public class ReservaController {
         eRe.delete(id);
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Reserva reserva = eRe.listId(id);
@@ -94,6 +97,8 @@ public class ReservaController {
 
         return ResponseEntity.ok(dto);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody ReservaDTO dto) {
         ModelMapper m = new ModelMapper();
