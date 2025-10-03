@@ -1,6 +1,10 @@
 package com.example.vegetariano.servicesimplements;
 
+<<<<<<< HEAD
 import com.example.vegetariano.entities.Resena;
+=======
+import com.example.vegetariano.entities.Reseña;
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
 import com.example.vegetariano.repositories.IResenaRepository;
 import com.example.vegetariano.serviceinterfaces.IResenaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +19,33 @@ public class ResenaServiceImplement implements IResenaService {
     private IResenaRepository rSA;
 
     @Override
+<<<<<<< HEAD
     public List<Resena> list() { return rSA.findAll(); }
 
 
     @Override
     public void insert(Resena resena) {rSA.save(resena);}
+=======
+    public List<Reseña> list() { return rSA.findAll(); }
+
+
+    @Override
+    public void insert(Reseña reseña) {rSA.save(reseña);}
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
 
     @Override
     public void delete(int id) { rSA.deleteById(id);}
 
     @Override
+<<<<<<< HEAD
     public Resena listId(int id) { return rSA.findById(id).orElse(null); }
 
     @Override
     public void update(Resena resena) {rSA.save(resena); }
+=======
+    public Reseña listId(int id) { return rSA.findById(id).orElse(null); }
+
+    @Override
+    public void update(Reseña reseña) {rSA.save(reseña); }
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
 }

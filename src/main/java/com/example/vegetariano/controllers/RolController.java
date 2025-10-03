@@ -7,7 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.security.access.prepost.PreAuthorize;
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +22,10 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+<<<<<<< HEAD
     @PreAuthorize("hasRole('ADMIN')")
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
     @GetMapping
     public List<RolDTO> listar() {
         return rolService.list().stream().map(rol -> {
@@ -27,16 +33,22 @@ public class RolController {
             return m.map(rol, RolDTO.class);
         }).collect(Collectors.toList());
     }
+<<<<<<< HEAD
 
     @PreAuthorize("hasRole('ADMIN')")
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
     @PostMapping
     public void insertar(@RequestBody RolDTO dto) {
         ModelMapper m = new ModelMapper();
         Rol r = m.map(dto, Rol.class);
         rolService.insert(r);
     }
+<<<<<<< HEAD
 
     @PreAuthorize("hasRole('ADMIN')")
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Rol rol = rolService.listId(id);
@@ -47,8 +59,11 @@ public class RolController {
         rolService.delete(id);
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
+<<<<<<< HEAD
 
     @PreAuthorize("hasRole('ADMIN')")
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Rol rol = rolService.listId(id);
@@ -60,8 +75,11 @@ public class RolController {
         RolDTO dto = m.map(rol, RolDTO.class);
         return ResponseEntity.ok(dto);
     }
+<<<<<<< HEAD
 
     @PreAuthorize("hasRole('ADMIN')")
+=======
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody RolDTO dto) {
         ModelMapper m = new ModelMapper();
