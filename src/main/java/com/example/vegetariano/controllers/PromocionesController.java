@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class PromocionesController {
     @Autowired
     private IPromocionesService repo;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<PromocionesDTO> listar() {
         return repo.list().stream().map(promocion -> {
@@ -35,6 +37,7 @@ public class PromocionesController {
         }).collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PostMapping
     public void insertar(@RequestBody PromocionesDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -45,7 +48,7 @@ public class PromocionesController {
         p.setRestaurante(restaurante);
         repo.insert(p);
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Promociones promo = repo.listId(id);
@@ -57,6 +60,7 @@ public class PromocionesController {
         return ResponseEntity.ok("Promoción con ID " + id + " eliminada correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Promociones promo = repo.listId(id);
@@ -75,6 +79,7 @@ public class PromocionesController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody PromocionesDTO dto) {
         ModelMapper m = new ModelMapper();

@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<RolDTO> listar() {
         return rolService.list().stream().map(rol -> {
@@ -25,12 +27,16 @@ public class RolController {
             return m.map(rol, RolDTO.class);
         }).collect(Collectors.toList());
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public void insertar(@RequestBody RolDTO dto) {
         ModelMapper m = new ModelMapper();
         Rol r = m.map(dto, Rol.class);
         rolService.insert(r);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Rol rol = rolService.listId(id);
@@ -41,6 +47,8 @@ public class RolController {
         rolService.delete(id);
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Rol rol = rolService.listId(id);
@@ -52,6 +60,8 @@ public class RolController {
         RolDTO dto = m.map(rol, RolDTO.class);
         return ResponseEntity.ok(dto);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody RolDTO dto) {
         ModelMapper m = new ModelMapper();

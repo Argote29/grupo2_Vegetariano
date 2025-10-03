@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class PlatoController {
     @Autowired
     private IPlatoService iPlatoService;
 
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<PlatoDTO> listar() {
         return pS.list().stream().map(plato -> {
@@ -31,7 +34,7 @@ public class PlatoController {
         }).collect(Collectors.toList());
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody PlatoDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -52,6 +55,7 @@ public class PlatoController {
                 .body("Plato registrada correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Plato plato = pS.listId(id);
@@ -62,6 +66,8 @@ public class PlatoController {
         pS.delete(id);
         return ResponseEntity.ok("Plato con ID " + id + " eliminado correctamente.");
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Plato plato = pS.listId(id);
@@ -73,6 +79,8 @@ public class PlatoController {
         PlatoDTO dto = m.map(plato, PlatoDTO.class);
         return ResponseEntity.ok(dto);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody PlatoDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -88,6 +96,7 @@ public class PlatoController {
         return ResponseEntity.ok("Plato con ID " + plato.getId_plato() + " modificado correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @GetMapping("/cantidad_ingredientes_platos")
     public ResponseEntity<?> contarIngredientesPorPlato() {
         List<QueryCantidadIngredientesDTO> listaDto = new ArrayList<>();
@@ -109,6 +118,7 @@ public class PlatoController {
         return ResponseEntity.ok(listaDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     //Platos y precios por restaurante//
     @GetMapping("/restaurante/{nombre}")
     public ResponseEntity<?> listarPorRestaurante(@PathVariable("nombre") String nombreRestaurante) {

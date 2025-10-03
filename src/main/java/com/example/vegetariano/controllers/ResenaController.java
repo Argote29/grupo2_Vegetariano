@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ResenaController {
     @Autowired
     private IResenaService rSA;
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping
     public List<ResenaDTO> listar() {
         return rSA.list().stream().map(resena -> {
@@ -32,6 +34,8 @@ public class ResenaController {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody ResenaDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -51,6 +55,7 @@ public class ResenaController {
                 .body("Reseña registrada correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Resena resena = rSA.listId(id);
@@ -62,6 +67,7 @@ public class ResenaController {
         return ResponseEntity.ok("Reseña con ID " + id + " eliminada correctamente.");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Resena resena = rSA.listId(id);
@@ -79,6 +85,7 @@ public class ResenaController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @PutMapping
     public ResponseEntity<String> modificar(@RequestBody ResenaDTO dto) {
         ModelMapper m = new ModelMapper();
