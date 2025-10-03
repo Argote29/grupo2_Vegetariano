@@ -22,7 +22,7 @@ public class UsuarioDTO
     private String preferencias_alimenticias;
 
     private String genero;
-
+    //modificación
     private int id_rol;
 
     public int getId_usuario() {
