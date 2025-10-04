@@ -19,7 +19,6 @@ import java.util.Set;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-<<<<<<< HEAD
     private final IUsuarioRepository usuarioRepository;
 
     public JwtUserDetailsService(IUsuarioRepository usuarioRepository) {
@@ -53,31 +52,3 @@ public class JwtUserDetailsService implements UserDetailsService {
         );
     }
 }
-=======
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(correo);
-
-        if (usuarioOpt.isEmpty()) {
-            throw new UsernameNotFoundException("Usuario no encontrado con correo: " + correo);
-        }
-
-        Usuario usuario = usuarioOpt.get();
-
-        Set<GrantedAuthority> authorities = new HashSet<>();
-
-        Rol rol = usuario.getRol();
-        if (rol != null && rol.getNombre() != null && !rol.getNombre().isBlank()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
-        } else {
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // Por defecto
-        }
-
-        return new User(usuario.getCorreo(), usuario.getContrasena(), authorities);
-    }
-    
-}
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
