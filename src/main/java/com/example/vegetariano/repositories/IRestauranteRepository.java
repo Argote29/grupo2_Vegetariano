@@ -16,7 +16,7 @@ public interface IRestauranteRepository extends JpaRepository<Restaurante, Integ
             "     inner join Reseña as re on r.id_restaurante=re.id_restaurante\n" +
             "     inner join Usuario as u on u.id_usuario=re.id_usuario\n" +
             "group by nombre_restaurante\n" +
-            "order by prom_calificacion desc",nativeQuery = true)
+            "order by prom_calificacion desc",nativeQuery = true)
     List<String[]> QueryRestaurantePromedioResena();
 
 
