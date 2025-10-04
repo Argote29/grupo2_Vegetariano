@@ -43,7 +43,7 @@ public class HistorialSuscripcionController {
         h.setUsuario(usuario);
 
        
-        if (h.getFecha_final_sub() != null && h.getFecha_final_sub().isBefore(h.getFecha_inico_sub())) {
+        if (h.getFecha_final_sub() != null && h.getFecha_final_sub().isBefore(h.getFecha_inicio_sub())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("La fecha final no puede ser anterior a la fecha de inicio.");
         }
