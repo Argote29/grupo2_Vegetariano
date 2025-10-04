@@ -1,13 +1,6 @@
 package com.example.vegetariano.controllers;
 
-<<<<<<< HEAD
 import com.example.vegetariano.dtos.Query2DTO;
-=======
-<<<<<<< HEAD
-import com.example.vegetariano.dtos.Query2DTO;
-=======
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.dtos.UsuarioDTO;
 import com.example.vegetariano.entities.Restaurante;
@@ -18,21 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
-=======
-import org.springframework.web.bind.annotation.*;
-
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,14 +25,7 @@ public class RestauranteController {
     @Autowired
     private IRestauranteService rService;
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
-=======
-<<<<<<< HEAD
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
-=======
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @GetMapping
     public List<RestauranteDTO> listar(){
         return rService.list()
@@ -64,15 +39,7 @@ public class RestauranteController {
                 .collect(Collectors.toList());
     }
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
-<<<<<<< HEAD
-    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
-
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @PostMapping
     public ResponseEntity<String> insertar(@RequestBody RestauranteDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -88,18 +55,7 @@ public class RestauranteController {
                 .body("Restaurante registrado correctamente.");
     }
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
-<<<<<<< HEAD
-    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
-
-
-
-
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Restaurante restaurante = rService.listId(id);
@@ -111,14 +67,7 @@ public class RestauranteController {
         return ResponseEntity.ok("Registro con ID " + id + " eliminado correctamente.");
     }
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
-=======
-<<<<<<< HEAD
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
-=======
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id_restaurante) {
         Restaurante restaurante = rService.listId(id_restaurante);
@@ -137,14 +86,7 @@ public class RestauranteController {
         return ResponseEntity.ok(dto);
     }
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
-<<<<<<< HEAD
-    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-=======
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @PutMapping("/{id}")
     public ResponseEntity<String> modificar(@PathVariable("id") Integer id_restaurante,
                                             @RequestBody RestauranteDTO dto) {
@@ -170,10 +112,6 @@ public class RestauranteController {
 
         return ResponseEntity.ok("Restaurante con ID " + id_restaurante + " modificado correctamente.");
     }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @GetMapping("RestaurantePromedioResena")
     public ResponseEntity<?> Mostrar() {
@@ -189,9 +127,3 @@ public class RestauranteController {
 
 }
 
-<<<<<<< HEAD
-=======
-=======
-}
->>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
->>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
