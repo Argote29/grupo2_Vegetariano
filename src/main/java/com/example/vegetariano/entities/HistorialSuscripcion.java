@@ -11,8 +11,8 @@ public class HistorialSuscripcion {
     private int id_historial;
 
     
-    @Column(name = "fecha_inico_sub", nullable = false)
-    private LocalDate fecha_inico_sub;
+    @Column(name = "fecha_inicio_sub", nullable = false)
+    private LocalDate fecha_inicio_sub;
 
     // Puede ser null mientras esté activa
     @Column(name = "fecha_final_sub")
@@ -28,28 +28,52 @@ public class HistorialSuscripcion {
 
     public HistorialSuscripcion() {}
 
-    public HistorialSuscripcion(int id_historial, LocalDate fecha_inico_sub,
-                                String estado, LocalDate fecha_final_sub, Usuario usuario) {
+    public HistorialSuscripcion(int id_historial, LocalDate fecha_inicio_sub, LocalDate fecha_final_sub, String estado, Usuario usuario) {
         this.id_historial = id_historial;
-        this.fecha_inico_sub = fecha_inico_sub;
-        this.estado = estado;
+        this.fecha_inicio_sub = fecha_inicio_sub;
         this.fecha_final_sub = fecha_final_sub;
+        this.estado = estado;
         this.usuario = usuario;
     }
 
-    public int getId_historial() { return id_historial; }
-    public void setId_historial(int id_historial) { this.id_historial = id_historial; }
+    public int getId_historial() {
+        return id_historial;
+    }
 
-    public LocalDate getFecha_inico_sub() { return fecha_inico_sub; }
-    public void setFecha_inico_sub(LocalDate fecha_inicio_sub) { this.fecha_inico_sub = fecha_inicio_sub; }
+    public void setId_historial(int id_historial) {
+        this.id_historial = id_historial;
+    }
 
-    public LocalDate getFecha_final_sub() { return fecha_final_sub; }
-    public void setFecha_final_sub(LocalDate fecha_final_sub) { this.fecha_final_sub = fecha_final_sub; }
+    public LocalDate getFecha_inicio_sub() {
+        return fecha_inicio_sub;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setFecha_inicio_sub(LocalDate fecha_inicio_sub) {
+        this.fecha_inicio_sub = fecha_inicio_sub;
+    }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public LocalDate getFecha_final_sub() {
+        return fecha_final_sub;
+    }
+
+    public void setFecha_final_sub(LocalDate fecha_final_sub) {
+        this.fecha_final_sub = fecha_final_sub;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
 
