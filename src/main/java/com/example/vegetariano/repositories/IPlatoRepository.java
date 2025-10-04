@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 package com.example.vegetariano.repositories;
 
 import com.example.vegetariano.entities.Plato;
@@ -27,3 +31,28 @@ public interface IPlatoRepository extends JpaRepository<Plato,Integer> {
             nativeQuery = true)
     List<Object[]> listarPlatosPorRestaurante(@Param("nombreRestaurante") String nombreRestaurante);
 }
+<<<<<<< HEAD
+=======
+=======
+package com.example.vegetariano.repositories;
+
+import com.example.vegetariano.entities.Plato;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface IPlatoRepository extends JpaRepository<Plato,Integer> {
+
+
+    @Query(value = "SELECT p.nombre_plato, COUNT(ip.id_ingredientes) AS total_ingredientes " +
+            "FROM plato p " +
+            "INNER JOIN ingrediente_plato ip ON p.id_plato = ip.id_plato " +
+            "GROUP BY p.nombre_plato",
+            nativeQuery = true)
+    List<String[]> cantidadIngredientesPorPlato();
+}
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
+>>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497

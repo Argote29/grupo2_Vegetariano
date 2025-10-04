@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 package com.example.vegetariano.dtos;
 
 import java.time.LocalDate;
@@ -58,3 +62,68 @@ public class PromocionesDTO {
         this.id_restaurante = id_restaurante;
     }
 }
+<<<<<<< HEAD
+=======
+=======
+package com.example.vegetariano.dtos;
+
+import java.time.LocalDate;
+
+public class PromocionesDTO {
+    private int  id_Promociones;
+    private String  descripcion;
+    private LocalDate fecha_inico_promo;
+    private LocalDate fecha_final_promo;
+    private String  descuento;
+    private int id_restaurante;
+
+    public int getId_Promociones() {
+        return id_Promociones;
+    }
+
+    public void setId_Promociones(int id_Promociones) {
+        this.id_Promociones = id_Promociones;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public LocalDate getFecha_inico_promo() {
+        return fecha_inico_promo;
+    }
+
+    public void setFecha_inico_promo(LocalDate fecha_inico_promo) {
+        this.fecha_inico_promo = fecha_inico_promo;
+    }
+
+    public LocalDate getFecha_final_promo() {
+        return fecha_final_promo;
+    }
+
+    public void setFecha_final_promo(LocalDate fecha_final_promo) {
+        this.fecha_final_promo = fecha_final_promo;
+    }
+
+    public String getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(String descuento) {
+        this.descuento = descuento;
+    }
+
+    public int getId_restaurante() {
+        return id_restaurante;
+    }
+
+    public void setId_restaurante(int id_restaurante) {
+        this.id_restaurante = id_restaurante;
+    }
+}
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
+>>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497

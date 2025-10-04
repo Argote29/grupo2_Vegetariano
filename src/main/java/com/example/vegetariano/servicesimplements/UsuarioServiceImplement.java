@@ -14,9 +14,19 @@ public class UsuarioServiceImplement implements IUsuarioService {
     private IUsuarioRepository uR;
     public List<Usuario> list(){return uR.findAll();}
     public void insert(Usuario usuario){uR.save(usuario);}
+<<<<<<< HEAD
     public List<String[]> QueryReservaUsuario() {
         return uR.QueryReservaUsuario();
     }
+=======
+<<<<<<< HEAD
+    public List<String[]> QueryReservaUsuario() {
+        return uR.QueryReservaUsuario();
+    }
+=======
+
+>>>>>>> e1645271619c55ea2f508aa7ec1c23a1f4672a86
+>>>>>>> f44f6e44411c9355e2be20fb1804fc3c674c6497
 
 
 }
