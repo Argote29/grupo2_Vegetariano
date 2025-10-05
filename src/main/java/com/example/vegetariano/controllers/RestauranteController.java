@@ -1,12 +1,14 @@
 package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.Query2DTO;
+import com.example.vegetariano.dtos.QueryRestauranteSinPromoDTO;
 import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.dtos.UsuarioDTO;
 import com.example.vegetariano.entities.Restaurante;
 import com.example.vegetariano.entities.Rol;
 import com.example.vegetariano.entities.Usuario;
 import com.example.vegetariano.serviceinterfaces.IRestauranteService;
+import com.example.vegetariano.servicesimplements.RestauranteServiceImplement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -134,6 +136,17 @@ public class RestauranteController {
 
         return ResponseEntity.ok(listaDTO);
     }
+
+    @GetMapping("/sin-promos")
+    public ResponseEntity<?> getSinPromos() {
+        List<QueryRestauranteSinPromoDTO> resultados = rService.queryRestaurantesinpromos();
+        if (resultados == null || resultados.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No hay restaurantes con 0 promociones");
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
 
 }
 

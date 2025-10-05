@@ -30,4 +30,9 @@ public class IngredientesServiceImplement  implements IIngredientesService {
     @Override
     public void update(Ingredientes ingredientes) { iIG.save(ingredientes); }
 
+    @Override
+    public List<Object[]> buscarPorOrigen(String origen) {
+        return iIG.buscarPorOrigen(origen);
+    }
+
 }

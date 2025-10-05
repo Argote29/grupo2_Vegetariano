@@ -1,5 +1,6 @@
 package com.example.vegetariano.serviceinterfaces;
 
+import com.example.vegetariano.dtos.QueryRestauranteSinPromoDTO;
 import com.example.vegetariano.entities.Restaurante;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface    IRestauranteService {
     void update(Restaurante restaurante);
 
     List<String[]> QueryRestaurantePromedioResena();
-
+    List<QueryRestauranteSinPromoDTO> queryRestaurantesinpromos();
 }
