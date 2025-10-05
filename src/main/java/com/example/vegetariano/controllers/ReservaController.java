@@ -1,6 +1,7 @@
 package com.example.vegetariano.controllers;
 
 
+import com.example.vegetariano.dtos.CantidadDeReservasPorRestauranteDTO;
 import com.example.vegetariano.dtos.ReservaDTO;
 import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.entities.Reserva;
@@ -126,5 +127,16 @@ public class ReservaController {
 
         eRe.update(reserva);
         return ResponseEntity.ok("Reserva con ID " + reserva.getId_reserva() + " modificada correctamente.");
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
+    @GetMapping("/resumen/{idRestaurante}")
+    public ResponseEntity<?> obtenerResumenPorRestaurante(@PathVariable int idRestaurante) {
+        List<CantidadDeReservasPorRestauranteDTO> resultado = eRe.obtenerNombreYCantidadPorRestaurante(idRestaurante);
+
+        if (resultado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron reservas para el restaurante con ID " + idRestaurante);
+        }
+        return ResponseEntity.ok(resultado.get(0));
     }
 }
