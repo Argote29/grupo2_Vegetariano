@@ -1,5 +1,6 @@
 package com.example.vegetariano.serviceinterfaces;
 
+import com.example.vegetariano.dtos.CantidadDeReservasPorRestauranteDTO;
 import com.example.vegetariano.entities.Reserva;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface IReservaService {
     public void delete(int id);
     public Reserva listId(int id);
     void update(Reserva reserva);
+    List<CantidadDeReservasPorRestauranteDTO> obtenerNombreYCantidadPorRestaurante(int idRestaurante);
 }

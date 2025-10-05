@@ -1,5 +1,6 @@
 package com.example.vegetariano.servicesimplements;
 
+import com.example.vegetariano.dtos.CantidadDeReservasPorRestauranteDTO;
 import com.example.vegetariano.entities.Reserva;
 import com.example.vegetariano.repositories.IReservaRepository;
 import com.example.vegetariano.serviceinterfaces.IReservaService;
@@ -38,5 +39,16 @@ public class ReservaServiceImplement implements IReservaService {
     public void update(Reserva reserva) {
         rRe.save(reserva);
 
+    }
+    @Override
+    public List<CantidadDeReservasPorRestauranteDTO> obtenerNombreYCantidadPorRestaurante(int idRestaurante) {
+        List<Object[]> resultados = rRe.obtenerNombreYCantidadPorRestaurante(idRestaurante);
+
+        return resultados.stream()
+                .map(obj -> new CantidadDeReservasPorRestauranteDTO(
+                        (String) obj[0],
+                        ((Number) obj[1]).longValue()
+                ))
+                .toList();
     }
 }
