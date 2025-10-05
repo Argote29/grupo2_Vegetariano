@@ -32,7 +32,13 @@ public class UsuarioController {
     public List<UsuarioDTO> listar(){
         return uR.list().stream().map(x->{
             ModelMapper m = new ModelMapper();
-            return m.map(x, UsuarioDTO.class);
+            UsuarioDTO dto = m.map(x, UsuarioDTO.class);
+
+            // 2️⃣ Asignar manualmente el id del rol
+            dto.setId_rol(x.getRol().getId_rol());
+
+            // 3️⃣ Retornar el DTO
+            return dto;
         }).collect(Collectors.toList());
     }
     @PreAuthorize("hasAnyRole('ADMIN')")

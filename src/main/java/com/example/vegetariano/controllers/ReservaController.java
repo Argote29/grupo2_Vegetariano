@@ -32,6 +32,7 @@ public class ReservaController {
             dto.setId_reserva(reserva.getId_reserva());
             dto.setFecha_reserva(reserva.getFecha_reserva());
             dto.setHora(reserva.getHora());
+            dto.setEstado(reserva.getEstado());
 
             if (reserva.getUsuario() != null) {
                 dto.setId_usuario(reserva.getUsuario().getId_usuario());

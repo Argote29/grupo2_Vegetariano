@@ -1,5 +1,6 @@
 package com.example.vegetariano.controllers;
 
+import com.example.vegetariano.dtos.QueryRestaurantesMasResenadosDTO;
 import com.example.vegetariano.dtos.ResenaDTO;
 import com.example.vegetariano.entities.Resena;
 import com.example.vegetariano.entities.Restaurante;
@@ -109,6 +110,18 @@ public class ResenaController {
 
         rSA.update(resena);
         return ResponseEntity.ok("Reseña con ID " + resena.getId_reseña() + " modificada correctamente.");
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','RESTAURANT')")
+    @GetMapping("/mas-resenados")
+    public ResponseEntity<List<QueryRestaurantesMasResenadosDTO>> obtenerMasResenados() {
+        List<QueryRestaurantesMasResenadosDTO> lista = rSA.obtenerRestaurantesMasResenados();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(lista);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.vegetariano.servicesimplements;
 
+import com.example.vegetariano.dtos.QueryRestaurantesMasResenadosDTO;
 import com.example.vegetariano.entities.Resena;
 import com.example.vegetariano.repositories.IResenaRepository;
 import com.example.vegetariano.serviceinterfaces.IResenaService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ResenaServiceImplement implements IResenaService {
@@ -29,4 +31,16 @@ public class ResenaServiceImplement implements IResenaService {
 
     @Override
     public void update(Resena resena) {rSA.save(resena); }
+
+    @Override
+    public List<QueryRestaurantesMasResenadosDTO> obtenerRestaurantesMasResenados() {
+        List<Object[]> resultados = rSA.findRestaurantesMasResenados();
+
+        return resultados.stream()
+                .map(obj -> new QueryRestaurantesMasResenadosDTO(
+                        (String) obj[0],
+                        ((Number) obj[1]).longValue()
+                ))
+                .collect(Collectors.toList());
+    }
 }
