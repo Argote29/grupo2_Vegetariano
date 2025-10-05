@@ -1,5 +1,7 @@
 package com.example.vegetariano.repositories;
 
+import com.example.vegetariano.dtos.QuerySuscripcionActivaDTO;
+import com.example.vegetariano.entities.HistorialSuscripcion;
 import com.example.vegetariano.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +19,6 @@ public interface IUsuarioRepository extends JpaRepository<Usuario,Integer>
             "group by nombre",nativeQuery = true)
     List<String[]> QueryReservaUsuario();
     Optional<Usuario> findByCorreo(String correo);
+
 
 }
