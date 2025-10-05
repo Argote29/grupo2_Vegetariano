@@ -18,4 +18,11 @@ public interface IUsuarioRepository extends JpaRepository<Usuario,Integer>
     List<String[]> QueryReservaUsuario();
     Optional<Usuario> findByCorreo(String correo);
 
+    @Query(value = "SELECT u.nombre, COUNT(re.id_reseña) AS total_reseñas " +
+            "FROM Usuario u " +
+            "INNER JOIN Reseña re ON u.id_usuario = re.id_usuario " +
+            "GROUP BY u.nombre " +
+            "ORDER BY total_reseñas DESC", nativeQuery = true)
+    List<Object[]> usuariosMasResenas();
+
 }
