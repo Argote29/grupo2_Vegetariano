@@ -2,8 +2,17 @@ package com.example.vegetariano.dtos;
 
 public class Query2DTO {
     private String nombre;
-    private int calificacion;
-    private int id_reseña;
+    private int promCalificacion;
+    private int numeroResena;
+
+    public Query2DTO() {
+    }
+
+    public Query2DTO(String nombre, int promCalificacion, int numeroResena) {
+        this.nombre = nombre;
+        this.promCalificacion = promCalificacion;
+        this.numeroResena = numeroResena;
+    }
 
     public String getNombre() {
         return nombre;
@@ -13,19 +22,19 @@ public class Query2DTO {
         this.nombre = nombre;
     }
 
-    public int getId_reseña() {
-        return id_reseña;
+    public int getPromCalificacion() {
+        return promCalificacion;
     }
 
-    public void setId_reseña(int id_reseña) {
-        this.id_reseña = id_reseña;
+    public void setPromCalificacion(int promCalificacion) {
+        this.promCalificacion = promCalificacion;
     }
 
-    public int getCalificacion() {
-        return calificacion;
+    public int getNumeroResena() {
+        return numeroResena;
     }
 
-    public void setCalificacion(int calificacion) {
-        this.calificacion = calificacion;
+    public void setNumeroResena(int numeroResena) {
+        this.numeroResena = numeroResena;
     }
 }

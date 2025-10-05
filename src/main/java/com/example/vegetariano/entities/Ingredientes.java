@@ -33,12 +33,14 @@ public class Ingredientes {
 
 
 
-    @ManyToMany(mappedBy = "ingredientes")
-    private List<Plato> plato;
+    @OneToMany
+    @JoinColumn(name = "id_ingrediente")
+    private List<Ingrediente_Plato> ingredientePlatoList;
 
-    public Ingredientes () {}
+    public Ingredientes() {}
 
-    public Ingredientes(int id_ingredientes, String nombre_ingrediente, String formas_preparar, Boolean tipo_natural, String nivel_insecticida, String origen, Boolean contiene_gluten, List<Plato> plato) {
+    public Ingredientes(int id_ingredientes, String nombre_ingrediente, String formas_preparar, Boolean tipo_natural,
+                        String nivel_insecticida, String origen, Boolean contiene_gluten, List<Ingrediente_Plato> ingredientePlatoList) {
         this.id_ingredientes = id_ingredientes;
         this.nombre_ingrediente = nombre_ingrediente;
         this.formas_preparar = formas_preparar;
@@ -46,70 +48,30 @@ public class Ingredientes {
         this.nivel_insecticida = nivel_insecticida;
         this.origen = origen;
         this.contiene_gluten = contiene_gluten;
-        this.plato = plato;
+        this.ingredientePlatoList = ingredientePlatoList;
     }
 
-    public int getId_ingredientes() {
-        return id_ingredientes;
-    }
+    public int getId_ingredientes() { return id_ingredientes; }
+    public void setId_ingredientes(int id_ingredientes) { this.id_ingredientes = id_ingredientes; }
 
-    public void setId_ingredientes(int id_ingredientes) {
-        this.id_ingredientes = id_ingredientes;
-    }
+    public String getNombre_ingrediente() { return nombre_ingrediente; }
+    public void setNombre_ingrediente(String nombre_ingrediente) { this.nombre_ingrediente = nombre_ingrediente; }
 
-    public String getNombre_ingrediente() {
-        return nombre_ingrediente;
-    }
+    public Boolean getTipo_natural() { return tipo_natural; }
+    public void setTipo_natural(Boolean tipo_natural) { this.tipo_natural = tipo_natural; }
 
-    public void setNombre_ingrediente(String nombre_ingrediente) {
-        this.nombre_ingrediente = nombre_ingrediente;
-    }
+    public String getNivel_insecticida() { return nivel_insecticida; }
+    public void setNivel_insecticida(String nivel_insecticida) { this.nivel_insecticida = nivel_insecticida; }
 
-    public Boolean getTipo_natural() {
-        return tipo_natural;
-    }
+    public String getFormas_preparar() { return formas_preparar; }
+    public void setFormas_preparar(String formas_preparar) { this.formas_preparar = formas_preparar; }
 
-    public void setTipo_natural(Boolean tipo_natural) {
-        this.tipo_natural = tipo_natural;
-    }
+    public String getOrigen() { return origen; }
+    public void setOrigen(String origen) { this.origen = origen; }
 
-    public String getNivel_insecticida() {
-        return nivel_insecticida;
-    }
+    public Boolean getContiene_gluten() { return contiene_gluten; }
+    public void setContiene_gluten(Boolean contiene_gluten) { this.contiene_gluten = contiene_gluten; }
 
-    public void setNivel_insecticida(String nivel_insecticida) {
-        this.nivel_insecticida = nivel_insecticida;
-    }
-
-    public String getFormas_preparar() {
-        return formas_preparar;
-    }
-
-    public void setFormas_preparar(String formas_preparar) {
-        this.formas_preparar = formas_preparar;
-    }
-
-    public String getOrigen() {
-        return origen;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-
-    public Boolean getContiene_gluten() {
-        return contiene_gluten;
-    }
-
-    public void setContiene_gluten(Boolean contiene_gluten) {
-        this.contiene_gluten = contiene_gluten;
-    }
-
-    public List<Plato> getPlato() {
-        return plato;
-    }
-
-    public void setPlato(List<Plato> plato) {
-        this.plato = plato;
-    }
+    public List<Ingrediente_Plato> getIngredientePlatoList() { return ingredientePlatoList; }
+    public void setIngredientePlatoList(List<Ingrediente_Plato> ingredientePlatoList) { this.ingredientePlatoList = ingredientePlatoList; }
 }
