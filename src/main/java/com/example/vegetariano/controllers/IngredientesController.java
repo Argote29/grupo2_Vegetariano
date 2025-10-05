@@ -77,4 +77,15 @@ public class IngredientesController {
         return ResponseEntity.ok("Ingrediente con ID " + ingrediente.getId_ingredientes() + " modificado correctamente.");
     }
 
+    @GetMapping("/ingredientes/por-origen")
+    public ResponseEntity<?> porOrigen(@RequestParam String origen) {
+        List<Object[]> filas = iIG.buscarPorOrigen(origen);
+        if (filas == null || filas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No hay ingredientes con origen " + origen);
+        }
+        return ResponseEntity.ok(filas);
+
+    }
+
 }

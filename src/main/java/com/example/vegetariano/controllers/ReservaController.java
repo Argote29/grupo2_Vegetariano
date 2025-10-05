@@ -1,9 +1,8 @@
 package com.example.vegetariano.controllers;
 
 
-import com.example.vegetariano.dtos.CantidadDeReservasPorRestauranteDTO;
+import com.example.vegetariano.dtos.QueryCantidadDeReservasPorRestauranteDTO;
 import com.example.vegetariano.dtos.ReservaDTO;
-import com.example.vegetariano.dtos.RestauranteDTO;
 import com.example.vegetariano.entities.Reserva;
 import com.example.vegetariano.entities.Restaurante;
 import com.example.vegetariano.entities.Usuario;
@@ -132,7 +131,7 @@ public class ReservaController {
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
     @GetMapping("/resumen/{idRestaurante}")
     public ResponseEntity<?> obtenerResumenPorRestaurante(@PathVariable int idRestaurante) {
-        List<CantidadDeReservasPorRestauranteDTO> resultado = eRe.obtenerNombreYCantidadPorRestaurante(idRestaurante);
+        List<QueryCantidadDeReservasPorRestauranteDTO> resultado = eRe.obtenerNombreYCantidadPorRestaurante(idRestaurante);
 
         if (resultado.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
