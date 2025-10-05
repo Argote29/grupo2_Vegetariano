@@ -2,6 +2,7 @@ package com.example.vegetariano.controllers;
 
 
 import com.example.vegetariano.dtos.Query1DTO;
+import com.example.vegetariano.dtos.QueryUsuarioMasResenaDTO;
 import com.example.vegetariano.dtos.UsuarioDTO;
 import com.example.vegetariano.entities.Rol;
 import com.example.vegetariano.entities.Usuario;
@@ -64,5 +65,10 @@ public class UsuarioController {
                     .body("No se encontraron registros");
         }
         return ResponseEntity.ok(listaDTO);
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
+    @GetMapping("/mas-resenas")
+    public List<QueryUsuarioMasResenaDTO> obtenerUsuariosMasResenas() {
+        return uR.obtenerUsuariosMasResenas();
     }
 }

@@ -1,10 +1,10 @@
 package com.example.vegetariano.dtos;
 
-public class CantidadDeReservasPorRestauranteDTO {
+public class QueryCantidadDeReservasPorRestauranteDTO {
     private String nombre_restaurante;
     private long cantidad_reserva;
 
-    public CantidadDeReservasPorRestauranteDTO(String nombre_restaurante, long cantidad_reserva) {
+    public QueryCantidadDeReservasPorRestauranteDTO(String nombre_restaurante, long cantidad_reserva) {
         this.nombre_restaurante = nombre_restaurante;
         this.cantidad_reserva = cantidad_reserva;
     }
