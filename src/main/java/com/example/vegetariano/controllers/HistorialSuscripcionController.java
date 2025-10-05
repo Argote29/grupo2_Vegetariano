@@ -2,6 +2,7 @@ package com.example.vegetariano.controllers;
 
 
 import com.example.vegetariano.dtos.HistorialSuscripcionDTO;
+import com.example.vegetariano.dtos.QuerySuscripcionActivaDTO;
 import com.example.vegetariano.entities.HistorialSuscripcion;
 import com.example.vegetariano.entities.Usuario;
 import com.example.vegetariano.serviceinterfaces.IHistorialSuscripcionService;
@@ -22,7 +23,7 @@ public class HistorialSuscripcionController {
     @Autowired
     private IHistorialSuscripcionService hSU;
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
     public List<HistorialSuscripcionDTO> listar() {
         return hSU.list().stream().map(historial -> {
@@ -90,5 +91,19 @@ public class HistorialSuscripcionController {
         hSU.update(historial);
         return ResponseEntity.ok("Historial de suscripción con ID " + historial.getId_historial() + " modificado correctamente.");
     }
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping("/activas")
+    public ResponseEntity<List<QuerySuscripcionActivaDTO>> obtenerSuscripcionesActivas() {
+        List<QuerySuscripcionActivaDTO> activas = hSU.findSuscripcionesActivas();
+
+        if (activas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(activas);
+    }
+
+
+
 }
 
