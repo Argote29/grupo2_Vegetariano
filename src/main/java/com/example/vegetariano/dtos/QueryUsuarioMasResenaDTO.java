@@ -17,11 +17,11 @@ public class QueryUsuarioMasResenaDTO {
         this.nombre = nombre;
     }
 
-    public long getTotalReservas() {
+    public long getTotalResenas() {
         return totalResenas;
     }
 
-    public void setTotalReservas(long totalResenas) {
+    public void setTotalResenas(long totalResenas) {
         this.totalResenas = totalResenas;
     }
 }
