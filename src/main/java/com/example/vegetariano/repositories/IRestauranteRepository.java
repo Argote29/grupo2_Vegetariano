@@ -1,5 +1,6 @@
 package com.example.vegetariano.repositories;
 
+import com.example.vegetariano.dtos.QueryRestauranteSinPromoDTO;
 import com.example.vegetariano.entities.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,15 @@ public interface IRestauranteRepository extends JpaRepository<Restaurante, Integ
             "order by prom_calificacion desc",nativeQuery = true)
     List<String[]> QueryRestaurantePromedioResena();
 
+    @Query(value = """
+    SELECT r.id_restaurante, r.nombre_restaurante
+    FROM Restaurante r
+    LEFT JOIN Promociones p ON p.id_restaurante = r.id_restaurante
+    WHERE p.id_promociones IS NULL
+    ORDER BY r.nombre_restaurante
+    """, nativeQuery = true)
+    List<Object[]> queryRestaurantesinpromos();
+
 
 }
+

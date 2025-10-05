@@ -11,4 +11,5 @@ public interface IIngredientesService {
     public void delete(int id);
     public Ingredientes listId(int id);
     void update(Ingredientes ingredientes);
+    List<Object[]> buscarPorOrigen(String origen);
 }

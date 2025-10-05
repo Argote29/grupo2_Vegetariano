@@ -1,5 +1,6 @@
 package com.example.vegetariano.servicesimplements;
 
+import com.example.vegetariano.dtos.QueryRestauranteSinPromoDTO;
 import com.example.vegetariano.entities.Restaurante;
 import com.example.vegetariano.repositories.IRestauranteRepository;
 import com.example.vegetariano.serviceinterfaces.IRestauranteService;
@@ -30,6 +31,18 @@ public class RestauranteServiceImplement implements IRestauranteService {
     @Override
     public List<String[]> QueryRestaurantePromedioResena() {
         return rre.QueryRestaurantePromedioResena();
+    }
+
+    @Override
+    public List<QueryRestauranteSinPromoDTO> queryRestaurantesinpromos() {
+        return rre.queryRestaurantesinpromos()
+                .stream()
+                .map(row -> new QueryRestauranteSinPromoDTO(
+                        ((Number) row[0]).intValue(),
+                        (String) row[1],
+                        0L
+                ))
+                .toList();
     }
 
 
