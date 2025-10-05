@@ -4,9 +4,10 @@ import java.time.LocalDate;
 
 public class HistorialSuscripcionDTO {
     private int id_historial;
-    private LocalDate fecha_inico_sub;
+    private LocalDate fecha_inicio_sub;
     private LocalDate fecha_final_sub;
     private String estado;
+    private Integer id_usuario;
 
     public int getId_historial() {
         return id_historial;
@@ -16,12 +17,12 @@ public class HistorialSuscripcionDTO {
         this.id_historial = id_historial;
     }
 
-    public LocalDate getFecha_inico_sub() {
-        return fecha_inico_sub;
+    public LocalDate getFecha_inicio_sub() {
+        return fecha_inicio_sub;
     }
 
-    public void setFecha_inico_sub(LocalDate fecha_inico_sub) {
-        this.fecha_inico_sub = fecha_inico_sub;
+    public void setFecha_inicio_sub(LocalDate fecha_inicio_sub) {
+        this.fecha_inicio_sub = fecha_inicio_sub;
     }
 
     public LocalDate getFecha_final_sub() {
@@ -39,4 +40,13 @@ public class HistorialSuscripcionDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public Integer getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Integer id_usuario) {
+        this.id_usuario = id_usuario;
+    }
 }
+

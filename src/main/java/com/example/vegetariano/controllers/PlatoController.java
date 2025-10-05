@@ -2,7 +2,6 @@ package com.example.vegetariano.controllers;
 
 import com.example.vegetariano.dtos.PlatoDTO;
 import com.example.vegetariano.dtos.QueryCantidadIngredientesDTO;
-import com.example.vegetariano.dtos.ReservaDTO;
 import com.example.vegetariano.entities.*;
 import com.example.vegetariano.serviceinterfaces.IPlatoService;
 import org.modelmapper.ModelMapper;

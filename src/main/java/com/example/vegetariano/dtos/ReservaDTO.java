@@ -1,16 +1,21 @@
 package com.example.vegetariano.dtos;
 
-import com.example.vegetariano.entities.Restaurante;
-import com.example.vegetariano.entities.Usuario;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservaDTO {
     private int id_reserva;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha_reserva;
+
+    @Schema(type = "string", example = "18:30", description = "Hora en formato HH:mm")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime hora;
+
     private int numero_personas;
     private String estado;
     private int id_usuario;

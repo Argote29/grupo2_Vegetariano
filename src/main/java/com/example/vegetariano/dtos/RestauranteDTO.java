@@ -1,7 +1,6 @@
 
 package com.example.vegetariano.dtos;
 
-import com.example.vegetariano.entities.Usuario;
 
 public class RestauranteDTO {
     private int id_restaurante;

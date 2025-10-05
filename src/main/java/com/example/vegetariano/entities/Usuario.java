@@ -2,12 +2,9 @@ package com.example.vegetariano.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.util.List;
-
 @Entity
 @Table(name = "Usuario")
-public class Usuario implements Serializable {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
@@ -27,9 +24,9 @@ public class Usuario implements Serializable {
     @Column(name = "genero",nullable = false,length = 9)
     private String genero;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id") // FK en tabla rol
-    private List<Rol> roles;
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false) // FK en usuario
+    private Rol rol;
 
     public Usuario() {}
 
@@ -40,7 +37,7 @@ public class Usuario implements Serializable {
         this.correo = correo;
         this.contrasena = contrasena;
         this.direccion = direccion;
-        this.roles = roles;
+        this.rol = rol;
         this.telefono = telefono;
         this.genero = genero;
     }
@@ -93,12 +90,12 @@ public class Usuario implements Serializable {
         this.direccion = direccion;
     }
 
-    public List<Rol> getRol() {
-        return roles;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setRol(List<Rol> rols) {
-        this.roles = rols;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public int getTelefono() {

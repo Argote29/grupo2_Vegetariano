@@ -113,15 +113,25 @@ public class RestauranteController {
         return ResponseEntity.ok("Restaurante con ID " + id_restaurante + " modificado correctamente.");
     }
     @PreAuthorize("hasAnyRole('ADMIN','RESTAURANT')")
-    @GetMapping("RestaurantePromedioResena")
-    public ResponseEntity<?> Mostrar() {
-        List<String[]> fila=rService.QueryRestaurantePromedioResena();
+    @GetMapping("/restaurantePromedioResena")
+    public ResponseEntity<?> mostrarPromedioResenas() {
+        List<String[]> resultados = rService.QueryRestaurantePromedioResena();
         List<Query2DTO> listaDTO = new ArrayList<>();
 
-        if (fila.isEmpty()) {
+        if (resultados.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se encontraron registros");
         }
+
+        for (Object[] fila : resultados) {
+            Query2DTO dto = new Query2DTO(
+                    (String) fila[0],                // nombre_restaurante
+                    ((Number) fila[1]).intValue(),   // promedio (entero)
+                    ((Number) fila[2]).intValue()    // número de reseñas
+            );
+            listaDTO.add(dto);
+        }
+
         return ResponseEntity.ok(listaDTO);
     }
 

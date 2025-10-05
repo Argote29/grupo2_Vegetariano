@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.io.Serializable;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,66 +20,83 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
 
-
+    // 5 horas en milisegundos
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
     @Value("${jwt.secret}")
     private String secret;
 
+    // =========================================================
+    // MÉTODOS DE OBTENCIÓN DE CLAIMS
+    // =========================================================
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    // Método genérico para obtener cualquier claim
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-
-    private Claims getAllClaimsFromToken(String token) {
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
+    // =========================================================
+    // GENERACIÓN DE TOKEN
+    // =========================================================
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", userDetails.getAuthorities().stream()
+
+        // Guardamos roles como lista en el claim "roles"
+        claims.put("roles", userDetails.getAuthorities().stream()
                 .map(r -> r.getAuthority())
-                .collect(Collectors.joining()));
+                .collect(Collectors.toList()));
+
         return doGenerateToken(claims, userDetails.getUsername());
     }
-
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(subject) // correo del usuario
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(new SecretKeySpec(Base64.getDecoder().decode(secret), SignatureAlgorithm.HS512.getJcaName()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
+    // =========================================================
+    // VALIDACIÓN
+    // =========================================================
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    // =========================================================
+    // CLAVE SECRETA
+    // =========================================================
+
+    private Key getSigningKey() {
+        // usamos la clave como texto plano en UTF-8
+        return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
+                SignatureAlgorithm.HS512.getJcaName());
     }
 }

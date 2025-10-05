@@ -1,37 +1,38 @@
 package com.example.vegetariano.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
-
 @Entity
-@Table(name = "HistorialSuscripcion")
+@Table(name = "HistorialSuscripcion") 
 public class HistorialSuscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_historial;
 
-    @Column(name = "fecha_inico_sub", nullable = false)
-    private LocalDate fecha_inico_sub;
+    
+    @Column(name = "fecha_inicio_sub", nullable = false)
+    private LocalDate fecha_inicio_sub;
 
-    @Column(name = "fecha_final_sub", nullable = false)
+    // Puede ser null mientras esté activa
+    @Column(name = "fecha_final_sub")
     private LocalDate fecha_final_sub;
 
-    @Column(name = "estado", nullable = false, length = 70)
+  
+    @Column(name = "estado", nullable = false, length = 10)
     private String estado;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    public HistorialSuscripcion () {}
+    public HistorialSuscripcion() {}
 
-    public HistorialSuscripcion(int id_historial, LocalDate fecha_inico_sub, String estado, LocalDate fecha_final_sub, Usuario usuario) {
+    public HistorialSuscripcion(int id_historial, LocalDate fecha_inicio_sub, LocalDate fecha_final_sub, String estado, Usuario usuario) {
         this.id_historial = id_historial;
-        this.fecha_inico_sub = fecha_inico_sub;
-        this.estado = estado;
+        this.fecha_inicio_sub = fecha_inicio_sub;
         this.fecha_final_sub = fecha_final_sub;
+        this.estado = estado;
         this.usuario = usuario;
     }
 
@@ -43,12 +44,12 @@ public class HistorialSuscripcion {
         this.id_historial = id_historial;
     }
 
-    public LocalDate getFecha_inico_sub() {
-        return fecha_inico_sub;
+    public LocalDate getFecha_inicio_sub() {
+        return fecha_inicio_sub;
     }
 
-    public void setFecha_inico_sub(LocalDate fecha_inico_sub) {
-        this.fecha_inico_sub = fecha_inico_sub;
+    public void setFecha_inicio_sub(LocalDate fecha_inicio_sub) {
+        this.fecha_inicio_sub = fecha_inicio_sub;
     }
 
     public LocalDate getFecha_final_sub() {
@@ -75,3 +76,4 @@ public class HistorialSuscripcion {
         this.usuario = usuario;
     }
 }
+

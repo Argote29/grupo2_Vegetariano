@@ -1,12 +1,8 @@
 package com.example.vegetariano.entities;
-
 import jakarta.persistence.*;
-
-import java.io.Serializable;
-
 @Entity
-@Table (name = "Rol",uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","nombre"})})
-public class Rol implements Serializable {
+@Table (name = "Rol")
+public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_rol;
@@ -14,16 +10,15 @@ public class Rol implements Serializable {
     @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Usuario usuario;
-
+    @Column(name = "descripcion", nullable = false, length = 200)
+    private String descripcion;
 
     public Rol() {}
 
-    public Rol(int id_rol, String nombre) {
+    public Rol(int id_rol, String nombre, String descripcion) {
         this.id_rol = id_rol;
         this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     public int getId_rol() {
@@ -42,11 +37,11 @@ public class Rol implements Serializable {
         this.nombre = nombre;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
