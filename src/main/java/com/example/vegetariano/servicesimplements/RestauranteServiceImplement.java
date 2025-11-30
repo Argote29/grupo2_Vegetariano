@@ -1,0 +1,72 @@
+package com.example.vegetariano.servicesimplements;
+
+import com.example.vegetariano.dtos.QueryRestauranteSinPromoDTO;
+import com.example.vegetariano.dtos.QueryRestaurantesMasVariedadPlatosDTO;
+import com.example.vegetariano.entities.Restaurante;
+import com.example.vegetariano.repositories.IRestauranteRepository;
+import com.example.vegetariano.serviceinterfaces.IRestauranteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+@Service
+public class RestauranteServiceImplement implements IRestauranteService {
+    @Autowired
+    private IRestauranteRepository rre;
+
+    @Override
+    public List<Restaurante> list() { return rre.findAll(); }
+
+    @Override
+    public void insert(Restaurante restaurante) { rre.save(restaurante); }
+
+    @Override
+    public void delete(int id) { rre.deleteById(id); }
+
+    @Override
+    public Restaurante listId(int id) { return rre.findById(id).orElse(null); }
+
+    @Override
+    public void update(Restaurante restaurante) { rre.save(restaurante); }
+
+   @Override
+    public List<Object[]> QueryRestaurantePromedioResena() {
+    return rre.QueryRestaurantePromedioResena();
+    }
+
+    @Override
+    public List<QueryRestauranteSinPromoDTO> queryRestaurantesinpromos() {
+        return rre.queryRestaurantesinpromos()
+                .stream()
+                .map(row -> new QueryRestauranteSinPromoDTO(
+                        ((Number) row[0]).intValue(),
+                        (String) row[1],
+                        0L
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<QueryRestaurantesMasVariedadPlatosDTO> Queryvariedad() {
+        List<String[]> lista = rre.QueryRestaurantesMasVariedadPlatos();
+        List<QueryRestaurantesMasVariedadPlatosDTO> resultado = new ArrayList<>();
+
+        for (String[] fila : lista) {
+            QueryRestaurantesMasVariedadPlatosDTO dto = new QueryRestaurantesMasVariedadPlatosDTO();
+            dto.setNombreRestaurante(fila[0]);
+            dto.setTotalPlatos(Long.parseLong(fila[1]));
+            resultado.add(dto);
+        }
+
+        return resultado;
+    }
+    
+    @Override
+    public List<String[]> QueryPromedioPorTipoCocina() {
+        return rre.QueryPromedioPorTipoCocina();
+        }
+
+}
+
+
