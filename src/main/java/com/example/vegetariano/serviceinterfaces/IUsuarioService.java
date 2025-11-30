@@ -14,4 +14,5 @@ public interface IUsuarioService {
     public void delete(int id);
     List<QueryUsuarioMasResenaDTO> obtenerUsuariosMasResenas();
     public QueryPorcentajeUsuarioFiltradoDTO getPorcentajeUsuariosPorGenero(String genero);
+    public Integer getIdUsuarioByCorreo(String email);
 }
