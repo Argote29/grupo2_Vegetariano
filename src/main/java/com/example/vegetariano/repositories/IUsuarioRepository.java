@@ -37,4 +37,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario,Integer>
                     WHERE genero = :genero
             """, nativeQuery = true)
     QueryPorcentajeUsuarioFiltradoDTO findPromedioUsuariosPorGenero(@Param("genero") String genero);
+    
+    @Query("SELECT u.id_usuario FROM Usuario u WHERE u.correo = :email")
+    Integer findIdUsuarioByCorreo(@Param("email") String email);
 }
