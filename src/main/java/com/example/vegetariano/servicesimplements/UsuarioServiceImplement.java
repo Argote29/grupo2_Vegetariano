@@ -68,4 +68,9 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
         return resultado;
     }
+    
+     @Override
+    public Integer getIdUsuarioByCorreo(String email) {
+        return uR.findIdUsuarioByCorreo(email);
+    }
 }
