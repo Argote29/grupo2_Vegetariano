@@ -129,4 +129,18 @@ public class UsuarioController {
 
         return ResponseEntity.ok(usuarios);
     }
+    
+    @GetMapping("/id-por-correo")
+    public ResponseEntity<Integer> obtenerIdPorCorreo(@RequestParam("email") String email) {
+
+        Integer id_usuario = uR.getIdUsuarioByCorreo(email);
+
+        if (id_usuario != null) {
+            // Devuelve el ID numérico y código 200 OK
+            return ResponseEntity.ok(id_usuario);
+        } else {
+            // Devuelve código 404 NOT FOUND si el correo no existe
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
